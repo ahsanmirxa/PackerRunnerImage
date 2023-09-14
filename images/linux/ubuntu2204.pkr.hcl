@@ -285,58 +285,25 @@ build {
                         "${path.root}/scripts/installers/azure-cli.sh",
                         "${path.root}/scripts/installers/azure-devops-cli.sh",
                         "${path.root}/scripts/installers/bicep.sh",
-                        "${path.root}/scripts/installers/aliyun-cli.sh",
-                        "${path.root}/scripts/installers/apache.sh",
-                        "${path.root}/scripts/installers/aws.sh",
-                        "${path.root}/scripts/installers/clang.sh",
-                        "${path.root}/scripts/installers/swift.sh",
-                        "${path.root}/scripts/installers/cmake.sh",
-                        "${path.root}/scripts/installers/codeql-bundle.sh",
                         "${path.root}/scripts/installers/containers.sh",
-                        "${path.root}/scripts/installers/dotnetcore-sdk.sh",
-                        "${path.root}/scripts/installers/firefox.sh",
-                        "${path.root}/scripts/installers/microsoft-edge.sh",
-                        "${path.root}/scripts/installers/gcc.sh",
-                        "${path.root}/scripts/installers/gfortran.sh",
                         "${path.root}/scripts/installers/git.sh",
                         "${path.root}/scripts/installers/github-cli.sh",
-                        "${path.root}/scripts/installers/google-chrome.sh",
-                        "${path.root}/scripts/installers/google-cloud-sdk.sh",
-                        "${path.root}/scripts/installers/haskell.sh",
-                        "${path.root}/scripts/installers/heroku.sh",
-                        "${path.root}/scripts/installers/java-tools.sh",
                         "${path.root}/scripts/installers/kubernetes-tools.sh",
-                        "${path.root}/scripts/installers/oc.sh",
-                        "${path.root}/scripts/installers/leiningen.sh",
-                        "${path.root}/scripts/installers/miniconda.sh",
-                        "${path.root}/scripts/installers/mono.sh",
-                        "${path.root}/scripts/installers/kotlin.sh",
                         "${path.root}/scripts/installers/mysql.sh",
                         "${path.root}/scripts/installers/mssql-cmd-tools.sh",
                         "${path.root}/scripts/installers/sqlpackage.sh",
                         "${path.root}/scripts/installers/nginx.sh",
                         "${path.root}/scripts/installers/nvm.sh",
                         "${path.root}/scripts/installers/nodejs.sh",
-                        "${path.root}/scripts/installers/bazel.sh",
-                        "${path.root}/scripts/installers/oras-cli.sh",
                         "${path.root}/scripts/installers/php.sh",
                         "${path.root}/scripts/installers/postgresql.sh",
                         "${path.root}/scripts/installers/pulumi.sh",
-                        "${path.root}/scripts/installers/ruby.sh",
-                        "${path.root}/scripts/installers/r.sh",
-                        "${path.root}/scripts/installers/rust.sh",
-                        "${path.root}/scripts/installers/julia.sh",
-                        "${path.root}/scripts/installers/sbt.sh",
-                        "${path.root}/scripts/installers/selenium.sh",
                         "${path.root}/scripts/installers/terraform.sh",
                         "${path.root}/scripts/installers/packer.sh",
                         "${path.root}/scripts/installers/vcpkg.sh",
                         "${path.root}/scripts/installers/dpkg-config.sh",
                         "${path.root}/scripts/installers/yq.sh",
-                        "${path.root}/scripts/installers/android.sh",
-                        "${path.root}/scripts/installers/pypy.sh",
-                        "${path.root}/scripts/installers/python.sh",
-                        "${path.root}/scripts/installers/zstd.sh"
+                        "${path.root}/scripts/installers/python.sh"
                         ]
   }
 
@@ -385,23 +352,6 @@ build {
   provisioner "shell" {
     execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
     script          = "${path.root}/scripts/base/apt-mock-remove.sh"
-  }
-
-  provisioner "shell" {
-    environment_vars = ["IMAGE_VERSION=${var.image_version}", "INSTALLER_SCRIPT_FOLDER=${var.installer_script_folder}"]
-    inline           = ["pwsh -File ${var.image_folder}/SoftwareReport/SoftwareReport.Generator.ps1 -OutputDirectory ${var.image_folder}", "pwsh -File ${var.image_folder}/tests/RunAll-Tests.ps1 -OutputDirectory ${var.image_folder}"]
-  }
-
-  provisioner "file" {
-    destination = "${path.root}/Ubuntu2204-Readme.md"
-    direction   = "download"
-    source      = "${var.image_folder}/software-report.md"
-  }
-
-  provisioner "file" {
-    destination = "${path.root}/software-report.json"
-    direction   = "download"
-    source      = "${var.image_folder}/software-report.json"
   }
 
   provisioner "shell" {
